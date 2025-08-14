@@ -1,42 +1,46 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react-swc'
-import path from 'path'
-import { componentTagger } from 'lovable-tagger'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react-swc';
+import path from 'path';
+import { componentTagger } from 'lovable-tagger';
 
-// https://vitejs.dev/config/
-export default defineConfig(({ mode }) => ({
-  // 🌐 Dev Server Configuration
-  server: {
-    host: '::', // Accept connections from all IPv6 addresses
-    port: 8080,
-    allowedHosts: ['ashwani-portfolio-7zux.onrender.com'], // ✅ Fix for Render deployment
-    open: false, // Prevent auto-opening browser
-  },
+// ✅ Vite Configuration
+export default defineConfig(({ mode }) => {
+  const isDev = mode === 'development';
 
-  // 🔌 Plugins
-  plugins: [
-    react(),
-    mode === 'development' && componentTagger(), // Only tag components in dev
-  ].filter(Boolean),
-
-  // 📁 Path Aliases
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
+  return {
+    // 🌐 Dev Server Settings
+    server: {
+      host: '::', // Accept connections from all IPv6 addresses
+      port: 8080, // Required by Render
+      allowedHosts: ['ashwani-portfolio-7zux.onrender.com'], // Whitelist Render's public URL
+      open: false, // Don't auto-open browser
     },
-  },
 
-  // 🏗️ Build Options
-  build: {
-    outDir: 'dist',
-    sourcemap: mode === 'development', // Enable sourcemaps in dev
-    emptyOutDir: true,
-  },
+    // 🔌 Plugins
+    plugins: [
+      react(), // Fast React refresh with SWC
+      isDev && componentTagger(), // Tag components only in dev mode
+    ].filter(Boolean),
 
-  // 🧪 Test Config (optional if using Vitest)
-  test: {
-    globals: true,
-    environment: 'jsdom',
-    setupFiles: './src/setupTests.ts',
-  },
-}))
+    // 📁 Path Aliases
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, 'src'), // Use '@/components/...' etc.
+      },
+    },
+
+    // 🏗️ Build Configuration
+    build: {
+      outDir: 'dist', // Output folder for production build
+      sourcemap: isDev, // Enable sourcemaps in dev for debugging
+      emptyOutDir: true, // Clean dist before build
+    },
+
+    // 🧪 Vitest Configuration (if used)
+    test: {
+      globals: true,
+      environment: 'jsdom',
+      setupFiles: './src/setupTests.ts',
+    },
+  };
+});
