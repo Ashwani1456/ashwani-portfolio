@@ -11,7 +11,7 @@ export default defineConfig(({ mode }) => {
     // 🌐 Dev Server Settings
     server: {
       host: '::', // Accept connections from all IPv6 addresses
-      port: 8080, // Required by Render
+      port: 8000, // Required by Render
       allowedHosts: ['ashwani-portfolio-xw24.onrender.com'], // Whitelist Render's public URL
       open: false, // Don't auto-open browser
     },
