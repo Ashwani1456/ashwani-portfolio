@@ -12,7 +12,7 @@ export default defineConfig(({ mode }) => {
     server: {
       host: '::', // Accept connections from all IPv6 addresses
       port: 8080, // Required by Render
-      allowedHosts: ['ashwani-portfolio-3.onrender.com'], // Whitelist Render's public URL
+      allowedHosts: ['ashwani-portfolio.onrender.com'], // Whitelist Render's public URL
       open: false, // Don't auto-open browser
     },
 
